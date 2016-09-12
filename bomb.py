@@ -6,6 +6,7 @@ import PIL.ImageTk, PIL.Image, Tkinter, tkMessageBox, os.path, pip, sys, os
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
+<<<<<<< HEAD
 top = Tkinter.Tk()
 top.wm_title("Bomb Seeker")
 top.withdraw()              #hide this window
@@ -66,16 +67,16 @@ class Menu:
             for j in range(self.rows):
                 self.field = Field(i,j)
 
-        top.deiconify()
+        game.top.deiconify()
 
-def main():                #main function
+def main():
     if 'PIL' in sys.modules:
         pass
     else:
         print "installing pillow..."
         pip.main(['install', "pillow"])
 
-    menu = Menu()
+    game = Game()
 
 if __name__ == "__main__":
     main()
