@@ -16,20 +16,19 @@ class Game:
         image = PIL.ImageTk.PhotoImage(image)
         return image
 
-fieldImage = game.initImage("field.jpg")        #images for the fields
-bombImage = game.initImage("bomb.png")
-crossImage = game.initImage("red-cross-md.png")
-
 class Field:
     def __init__(self, i, j):
         self.x = i
         self.y = j
         self.isMine = randint(0, 1)
-        self.button = Tkinter.Button(game.top, image = fieldImage, command = self.callback, height = 50, width = 50).grid(row=i, column=j)
+        self.button = Tkinter.Button(game.top, image = self.fieldImage, command = self.callback, height = 50, width = 50).grid(row=i, column=j)
+        self.fieldImage = game.initImage("field.jpg")        #images for the fields
+	self.bombImage = game.initImage("bomb.png")
+	self.crossImage = game.initImage("red-cross-md.png")
 
     def callback(self):
         if(self.isMine == 1):
-            self.button = Tkinter.Button(game.top, image = bombImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
+            self.button = Tkinter.Button(game.top, image = self.bombImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
             tkMessageBox.showinfo("BombSekker", "Game Over")
 
 	    for i in range(menu.rows):
@@ -39,7 +38,7 @@ class Field:
 	    game.top.withdraw()
 	    menu = Menu()
         else:
-            self.button = Tkinter.Button(game.top, image = crossImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
+            self.button = Tkinter.Button(game.top, image = self.crossImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
 
 class Menu:
     def __init__(self):
@@ -80,7 +79,6 @@ def main():                #main function
         pip.main(['install', "pillow"])
     
     game = Game()
-    menu = Menu()
-
+    
 if __name__ == "__main__":
     main()
