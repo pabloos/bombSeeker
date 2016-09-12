@@ -16,28 +16,6 @@ class Game:
         image = PIL.ImageTk.PhotoImage(image)
         return image
 
-class Field:
-    def __init__(self, i, j):
-        self.x = i
-        self.y = j
-        self.isMine = randint(0, 1)
-
-        self.button = Tkinter.Button(game.top, image = self.fieldImage, command = self.callback, height = 50, width = 50).grid(row=i, column=j)
-
-        self.fieldImage = game.initImage("field.jpg")        #images for the fields
-	self.bombImage = game.initImage("bomb.png")
-	self.crossImage = game.initImage("red-cross-md.png")
-
-    def callback(self):
-        if(self.isMine == 1):
-            self.button = Tkinter.Button(game.top, image = self.bombImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
-            tkMessageBox.showinfo("BombSekker", "Game Over")
-		           
-	    game.top.withdraw()
-	    game.menu = Menu()
-        else:
-            self.button = Tkinter.Button(game.top, image = self.crossImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
-
 class Menu:
     def __init__(self):
         self.topForm = Tkinter.Tk()
@@ -67,7 +45,29 @@ class Menu:
             for j in range(self.rows):
                 self.field = Field(i,j)
 
-        top.deiconify()
+        game.top.deiconify()
+
+class Field:
+    def __init__(self, i, j):
+        self.x = i
+        self.y = j
+        self.isMine = randint(0, 1)
+
+        self.button = Tkinter.Button(game.top, image = self.fieldImage, command = self.callback, height = 50, width = 50).grid(row=i, column=j)
+
+        self.fieldImage = game.initImage("field.jpg")        #images for the fields
+	self.bombImage = game.initImage("bomb.png")
+	self.crossImage = game.initImage("red-cross-md.png")
+
+    def callback(self):
+        if(self.isMine == 1):
+            self.button = Tkinter.Button(game.top, image = self.bombImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
+            tkMessageBox.showinfo("BombSekker", "Game Over")
+		           
+	    game.top.withdraw()
+	    game.menu = Menu()
+        else:
+            self.button = Tkinter.Button(game.top, image = self.crossImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
 
 def main():
     if 'PIL' in sys.modules:
