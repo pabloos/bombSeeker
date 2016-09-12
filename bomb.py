@@ -6,7 +6,6 @@ import PIL.ImageTk, PIL.Image, Tkinter, tkMessageBox, os.path, pip, sys, os
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-<<<<<<< HEAD
 top = Tkinter.Tk()
 top.wm_title("Bomb Seeker")
 top.withdraw()              #hide this window
@@ -29,11 +28,12 @@ class Field:
         self.button = Tkinter.Button(top, image = fieldImage, command = self.callback, height = 50, width = 50).grid(row=i, column=j)
 
     def callback(self):
-        if(self.isMine == 1):
+        if self.isMine == 1:
             self.button = Tkinter.Button(top, image = bombImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
             tkMessageBox.showinfo("BombSekker", "Game Over")
 
             #os.execv(__file__, sys.argv)
+            exit()
 
         else:
             self.button = Tkinter.Button(top, image = crossImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
@@ -67,7 +67,7 @@ class Menu:
             for j in range(self.rows):
                 self.field = Field(i,j)
 
-        game.top.deiconify()
+        top.deiconify()
 
 def main():
     if 'PIL' in sys.modules:
@@ -76,7 +76,7 @@ def main():
         print "installing pillow..."
         pip.main(['install', "pillow"])
 
-    game = Game()
+    menu = Menu()
 
 if __name__ == "__main__":
     main()
