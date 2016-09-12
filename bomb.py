@@ -1,11 +1,14 @@
+#!/usr/bin/env python
+
 from random import randint
 from Tkinter import *
-import PIL.ImageTk, PIL.Image, Tkinter, tkMessageBox, os.path, pip, sys
+import PIL.ImageTk, PIL.Image, Tkinter, tkMessageBox, os.path, pip, sys, os
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-top = Tkinter.Tk()          #we will hide this window
-top.withdraw()
+top = Tkinter.Tk()
+top.wm_title("Bomb Seeker")
+top.withdraw()              #hide this window
 
 def initImage(image):
     image = PIL.Image.open(os.path.join(script_dir, image))
@@ -28,35 +31,36 @@ class Field:
         if(self.isMine == 1):
             self.button = Tkinter.Button(top, image = bombImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
             tkMessageBox.showinfo("BombSekker", "Game Over")
-            exit()
-            menu = Menu()
+
+            #os.execv(__file__, sys.argv)
+
         else:
             self.button = Tkinter.Button(top, image = crossImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
 
 class Menu:
     def __init__(self):
-        self.topForm = Tkinter.Tk()
+        self.window = Tkinter.Tk()
+        self.window.wm_title("Bomb Seeker")
 
-        self.label1 = Label(self.topForm, text = "Insert the number of columns:")
-        self.form1 = Entry(self.topForm)
-        self.label1.grid(row = 1, column = 1)
-        self.form1.grid(row = 1, column = 2)    #frist part of the form
+        self.label0 = Label(self.window, text = "Select the dimensions (x,y)").grid(row = 1, column = 1, columnspan = 2)
 
-        self.label2 = Label(self.topForm, text = "Insert the number of rows:")
-        self.form2 = Entry(self.topForm)
-        self.label2.grid(row = 2, column = 1)
-        self.form2.grid(row = 2, column = 2)    #second one...
+        self.label1 = Label(self.window, text = "Insert the number of columns:").grid(row = 2, column = 1)
+        self.form1 = Entry(self.window)
+        self.form1.grid(row = 2, column = 2)    #frist part of the form
 
-        self.button = Button(self.topForm, text = "Go!", command = self.callbackButton)
-        self.button.grid(row = 3, column = 2)
+        self.label2 = Label(self.window, text = "Insert the number of rows:").grid(row = 3, column = 1)
+        self.form2 = Entry(self.window)
+        self.form2.grid(row = 3, column = 2)    #second one...
 
-        self.topForm.mainloop()
+        self.button = Button(self.window, text = "Go!", command = self.callbackButton).grid(row = 4, column = 1, columnspan = 2)
+
+        self.window.mainloop()
 
     def callbackButton(self):
         self.cols = int(self.form1.get())
         self.rows = int(self.form2.get())
 
-        self.topForm.destroy()
+        self.window.destroy()
 
         for i in range(self.cols):
             for j in range(self.rows):
