@@ -4,7 +4,7 @@ import PIL.ImageTk, PIL.Image, Tkinter, tkMessageBox, os.path, pip, sys
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-top = Tkinter.Tk()
+top = Tkinter.Tk()          #we will hide this window
 top.withdraw()
 
 def initImage(image):
@@ -13,7 +13,7 @@ def initImage(image):
     image = PIL.ImageTk.PhotoImage(image)
     return image
 
-img = initImage("field.jpg")
+img = initImage("field.jpg")        #images for the fields
 img2 = initImage("bomb.png")
 img3 = initImage("red-cross-md.png")
 
@@ -39,12 +39,12 @@ class Menu:
         self.label1 = Label(self.topForm, text = "Insert the number of columns:")
         self.form1 = Entry(self.topForm)
         self.label1.grid(row = 1, column = 1)
-        self.form1.grid(row = 1, column = 2)
+        self.form1.grid(row = 1, column = 2)    #frist part of the form
 
         self.label2 = Label(self.topForm, text = "Insert the number of rows:")
         self.form2 = Entry(self.topForm)
         self.label2.grid(row = 2, column = 1)
-        self.form2.grid(row = 2, column = 2)
+        self.form2.grid(row = 2, column = 2)    #second one...
 
         self.button = Button(self.topForm, text = "Go!", command = self.callbackButton)
         self.button.grid(row = 3, column = 2)
@@ -63,7 +63,7 @@ class Menu:
 
         top.deiconify()
 
-def main():
+def main():                #main function
     if 'PIL' in sys.modules:
         pass
     else:
