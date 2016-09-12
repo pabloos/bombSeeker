@@ -4,34 +4,42 @@ import PIL.ImageTk, PIL.Image, Tkinter, tkMessageBox, os.path, pip, sys
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-top = Tkinter.Tk()          #we will hide this window
-top.withdraw()
 
-def initImage(image):
-    image = PIL.Image.open(os.path.join(script_dir, image))
-    image = image.resize((50,50), PIL.Image.ANTIALIAS)
-    image = PIL.ImageTk.PhotoImage(image)
-    return image
+class Game:
+    def __init__(self):
+        self.top = Tkinter.Tk()          #we will hide this window
+        self.top.withdraw()
 
-fieldImage = initImage("field.jpg")        #images for the fields
-bombImage = initImage("bomb.png")
-crossImage = initImage("red-cross-md.png")
+    def initImage(image):
+        image = PIL.Image.open(os.path.join(script_dir, image))
+        image = image.resize((50,50), PIL.Image.ANTIALIAS)
+        image = PIL.ImageTk.PhotoImage(image)
+        return image
+
+fieldImage = game.initImage("field.jpg")        #images for the fields
+bombImage = game.initImage("bomb.png")
+crossImage = game.initImage("red-cross-md.png")
 
 class Field:
     def __init__(self, i, j):
         self.x = i
         self.y = j
         self.isMine = randint(0, 1)
-        self.button = Tkinter.Button(top, image = fieldImage, command = self.callback, height = 50, width = 50).grid(row=i, column=j)
+        self.button = Tkinter.Button(game.top, image = fieldImage, command = self.callback, height = 50, width = 50).grid(row=i, column=j)
 
     def callback(self):
         if(self.isMine == 1):
-            self.button = Tkinter.Button(top, image = bombImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
+            self.button = Tkinter.Button(game.top, image = bombImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
             tkMessageBox.showinfo("BombSekker", "Game Over")
-            exit()
-            menu = Menu()
+
+	    for i in range(menu.rows):
+		for j in range(menu.cols):
+		    menu.field = None
+		           
+	    game.top.withdraw()
+	    menu = Menu()
         else:
-            self.button = Tkinter.Button(top, image = crossImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
+            self.button = Tkinter.Button(game.top, image = crossImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
 
 class Menu:
     def __init__(self):
@@ -70,7 +78,8 @@ def main():                #main function
     else:
         print "installing pillow..."
         pip.main(['install', "pillow"])
-
+    
+    game = Game()
     menu = Menu()
 
 if __name__ == "__main__":
