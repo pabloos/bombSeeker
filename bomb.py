@@ -13,24 +13,25 @@ def initImage(image):
     image = PIL.ImageTk.PhotoImage(image)
     return image
 
-img = initImage("field.jpg")        #images for the fields
-img2 = initImage("bomb.png")
-img3 = initImage("red-cross-md.png")
+fieldImage = initImage("field.jpg")        #images for the fields
+bombImage = initImage("bomb.png")
+crossImage = initImage("red-cross-md.png")
 
 class Field:
     def __init__(self, i, j):
         self.x = i
         self.y = j
         self.isMine = randint(0, 1)
-        self.button = Tkinter.Button(top, image = img, command = self.callback, height = 50, width = 50).grid(row=i, column=j)
+        self.button = Tkinter.Button(top, image = fieldImage, command = self.callback, height = 50, width = 50).grid(row=i, column=j)
 
     def callback(self):
         if(self.isMine == 1):
-            self.button = Tkinter.Button(top, image = img2, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
+            self.button = Tkinter.Button(top, image = bombImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
             tkMessageBox.showinfo("BombSekker", "Game Over")
             exit()
+            menu = Menu()
         else:
-            self.button = Tkinter.Button(top, image = img3, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
+            self.button = Tkinter.Button(top, image = crossImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
 
 class Menu:
     def __init__(self):
