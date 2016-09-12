@@ -4,11 +4,11 @@ import PIL.ImageTk, PIL.Image, Tkinter, tkMessageBox, os.path, pip, sys
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-
 class Game:
     def __init__(self):
         self.top = Tkinter.Tk()          #we will hide this window
         self.top.withdraw()
+	self.menu = Menu()
 
     def initImage(image):
         image = PIL.Image.open(os.path.join(script_dir, image))
@@ -21,7 +21,9 @@ class Field:
         self.x = i
         self.y = j
         self.isMine = randint(0, 1)
+
         self.button = Tkinter.Button(game.top, image = self.fieldImage, command = self.callback, height = 50, width = 50).grid(row=i, column=j)
+
         self.fieldImage = game.initImage("field.jpg")        #images for the fields
 	self.bombImage = game.initImage("bomb.png")
 	self.crossImage = game.initImage("red-cross-md.png")
@@ -30,13 +32,9 @@ class Field:
         if(self.isMine == 1):
             self.button = Tkinter.Button(game.top, image = self.bombImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
             tkMessageBox.showinfo("BombSekker", "Game Over")
-
-	    for i in range(menu.rows):
-		for j in range(menu.cols):
-		    menu.field = None
 		           
 	    game.top.withdraw()
-	    menu = Menu()
+	    game.menu = Menu()
         else:
             self.button = Tkinter.Button(game.top, image = self.crossImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
 
@@ -71,7 +69,7 @@ class Menu:
 
         top.deiconify()
 
-def main():                #main function
+def main():
     if 'PIL' in sys.modules:
         pass
     else:
