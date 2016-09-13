@@ -4,30 +4,29 @@ from random import randint
 from Tkinter import *
 import PIL.ImageTk, PIL.Image, Tkinter, tkMessageBox, os.path, pip, sys, os
 
-top = Tkinter.Tk()
-top.wm_title("Bomb Seeker")
-top.withdraw()              #hide this window
-
 class Field:
     def __init__(self, i, j):
         self.x = i
         self.y = j
         self.isMine = randint(0, 1)
-        self.button = Tkinter.Button(top, image = fieldImage, command = self.callback, height = 50, width = 50).grid(row=i, column=j)
+        self.button = Tkinter.Button(master = Menu.top, image = fieldImage, command = self.callback, height = 50, width = 50).grid(row=i, column=j)
 
     def callback(self):
         if self.isMine == 1:
-            self.button = Tkinter.Button(top, image = bombImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
+            self.button = Tkinter.Button(master = Menu.top, image = bombImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
             tkMessageBox.showinfo("BombSekker", "Game Over")
 
-            #os.execv(__file__, sys.argv)
             exit()
 
         else:
-            self.button = Tkinter.Button(top, image = crossImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
+            self.button = Tkinter.Button(master = Menu.top, image = crossImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
 
 class Menu:
     script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    top = Tkinter.Tk()
+    top.wm_title("Bomb Seeker")
+    top.withdraw()              #hide this window
 
     @staticmethod
     def initImage(image):
@@ -44,11 +43,11 @@ class Menu:
 
         self.label1 = Label(self.window, text = "Insert the number of columns:").grid(row = 2, column = 1)
         self.form1 = Entry(self.window)
-        self.form1.grid(row = 2, column = 2)    #frist part of the form
+        self.form1.grid(row = 2, column = 2)
 
         self.label2 = Label(self.window, text = "Insert the number of rows:").grid(row = 3, column = 1)
         self.form2 = Entry(self.window)
-        self.form2.grid(row = 3, column = 2)    #second one...
+        self.form2.grid(row = 3, column = 2)
 
         self.button = Button(self.window, text = "Go!", command = self.callbackButton).grid(row = 4, column = 1, columnspan = 2)
 
@@ -64,20 +63,18 @@ class Menu:
             for j in range(self.rows):
                 self.field = Field(i,j)
 
-        top.deiconify()
+        Menu.top.deiconify()
+
+#################################
+######## Executive block ########
+#################################
 
 fieldImage = Menu.initImage("field.jpg")        #images for the fields
 bombImage = Menu.initImage("bomb.png")
 crossImage = Menu.initImage("red-cross-md.png")
 
-def main():
-    if 'PIL' in sys.modules:
-        pass
-    else:
-        print "installing pillow..."
-        pip.main(['install', "pillow"])
+if not 'PIL' in sys.modules:
+    print "installing pillow..."
+    pip.main(['install', "pillow"])
 
-    menu = Menu()
-
-if __name__ == "__main__":
-    main()
+menu = Menu()
