@@ -4,21 +4,9 @@ from random import randint
 from Tkinter import *
 import PIL.ImageTk, PIL.Image, Tkinter, tkMessageBox, os.path, pip, sys, os
 
-script_dir = os.path.dirname(os.path.abspath(__file__))
-
 top = Tkinter.Tk()
 top.wm_title("Bomb Seeker")
 top.withdraw()              #hide this window
-
-def initImage(image):
-    image = PIL.Image.open(os.path.join(script_dir, image))
-    image = image.resize((50,50), PIL.Image.ANTIALIAS)
-    image = PIL.ImageTk.PhotoImage(image)
-    return image
-
-fieldImage = initImage("field.jpg")        #images for the fields
-bombImage = initImage("bomb.png")
-crossImage = initImage("red-cross-md.png")
 
 class Field:
     def __init__(self, i, j):
@@ -39,6 +27,15 @@ class Field:
             self.button = Tkinter.Button(top, image = crossImage, command = self.callback, height = 50, width = 50).grid(row=self.x, column=self.y)
 
 class Menu:
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    @staticmethod
+    def initImage(image):
+        image = PIL.Image.open(os.path.join(Menu.script_dir, image))
+        image = image.resize((50,50), PIL.Image.ANTIALIAS)
+        image = PIL.ImageTk.PhotoImage(image)
+        return image
+
     def __init__(self):
         self.window = Tkinter.Tk()
         self.window.wm_title("Bomb Seeker")
@@ -68,6 +65,10 @@ class Menu:
                 self.field = Field(i,j)
 
         top.deiconify()
+
+fieldImage = Menu.initImage("field.jpg")        #images for the fields
+bombImage = Menu.initImage("bomb.png")
+crossImage = Menu.initImage("red-cross-md.png")
 
 def main():
     if 'PIL' in sys.modules:
